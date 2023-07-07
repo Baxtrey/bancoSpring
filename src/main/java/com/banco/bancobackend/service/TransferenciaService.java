@@ -34,29 +34,32 @@ public class TransferenciaService {
 	public Transferencia guardarTransferencia(Transferencia transferencia) {
 
 		this.transferenciaRepository.save(transferencia);
-		Double importe = transferencia.getImporte();
+		   // Obtener y Actualizar ordenante 
+	    Cliente ordenante = transferencia.getOrdenante();
 
-		Cliente ordenante = transferencia.getOrdenante();
-		ordenante = clienteService.leerCliente(ordenante.getId()).orElse(null);
+	    ordenante = clienteService.leerCliente(ordenante.getId()).orElse(null);
+	    
+	    Double importe = transferencia.getImporte();
+	    
+	    
+	    Double saldoOrdenante = ordenante.getSaldo();
+	    
+	    ordenante.setSaldo(saldoOrdenante - importe);
+	    // obtener y actualizar beneficiarios
+	    
+	    Cliente beneficiario = transferencia.getBeneficiario();
+	    
+	    beneficiario = clienteService.leerCliente(beneficiario.getId()).orElse(null);
+	    
+	    Double saldoBeneficiario = beneficiario.getSaldo();
+	    
+	    beneficiario.setSaldo(saldoBeneficiario + importe);
 
-		ordenante.setPassword(null);
+	    // guardamos los clientes modificados
+	    clienteService.guardarClienteSinActualizarPassword(ordenante);
+	    clienteService.guardarClienteSinActualizarPassword(beneficiario);
+	    return transferencia;
 
-		Double saldoOrdenante = ordenante.getSaldo();
-		ordenante.setSaldo(saldoOrdenante - importe);
-
-		Cliente beneficiario = transferencia.getBeneficiario();
-		beneficiario = clienteService.leerCliente(beneficiario.getId()).orElse(null);
-
-		beneficiario.setPassword(null);
-
-		Double saldoBeneficiario = beneficiario.getSaldo();
-
-		beneficiario.setSaldo(saldoBeneficiario + importe);
-
-		clienteService.guardarCliente(ordenante);
-		clienteService.guardarCliente(beneficiario);
-
-		return transferencia;
 	}
 
 	// Eliminar una transferencia por su id
@@ -83,6 +86,7 @@ public class TransferenciaService {
 	    // Guardar la transferencia en la base de datos
 	    this.transferenciaRepository.save(transferencia);
 
+	 
 	    return transferencia;
 	}
 

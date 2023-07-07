@@ -22,40 +22,42 @@ import com.banco.bancobackend.service.TransferenciaService;
 @CrossOrigin(origins = "http://localhost:4200")
 public class TransferenciaController {
 
-    @Autowired
-    TransferenciaService transferenciaService;
+	@Autowired
+	TransferenciaService transferenciaService;
 
-    @GetMapping()
-    public List<Transferencia> obtenerTransferencias() {
-        return this.transferenciaService.leerTransferencias();
-    }
+	@GetMapping()
+	public List<Transferencia> obtenerTransferencias() {
+		return this.transferenciaService.leerTransferencias();
+	}
 
-    @GetMapping("/{id}")
-    public Optional<Transferencia> obtenerTransferencia(@PathVariable("id") Integer id) {
-        return this.transferenciaService.leerTransferencia(id);
-    }
+	@GetMapping("/{id}")
+	public Optional<Transferencia> obtenerTransferencia(@PathVariable("id") Integer id) {
+		return this.transferenciaService.leerTransferencia(id);
+	}
 
-    @PostMapping()
-    public Transferencia guardarTransferencia(@RequestBody Transferencia transferencia) {
-        return this.transferenciaService.guardarTransferencia(transferencia);
-    }
+	@PostMapping()
+	public Transferencia guardarTransferencia(@RequestBody Transferencia transferencia) {
+		return this.transferenciaService.guardarTransferencia(transferencia);
+	}
 
-    @DeleteMapping("/{id}")
-    public void borrarTransferencia(@PathVariable("id") Integer id) {
-        this.transferenciaService.borrarTransferenciaPorId(id);
-    }
-    
-    @GetMapping("/ordenante/{id}")
-    public ArrayList<Transferencia> obtenerTransferenciaporOrdenante(@PathVariable("id") Integer id) {
-        return this.transferenciaService.buscarTransferenciaPorOrdenanteId(id);
-    }
-    @GetMapping("/beneficiario/{id}")
-    public ArrayList<Transferencia> obtenerTransferenciaporBeneficiario(@PathVariable("id") Integer id) {
-        return this.transferenciaService.buscarTransferenciaPorBeneficiarioId(id);
-    }
-    @PostMapping("/realizar")
-    public Transferencia realizarTransferencia(@RequestBody Transferencia transferencia) {
-        return this.transferenciaService.realizarTransferencia(transferencia);
-    }
+	@DeleteMapping("/{id}")
+	public void borrarTransferencia(@PathVariable("id") Integer id) {
+		this.transferenciaService.borrarTransferenciaPorId(id);
+	}
+
+	@GetMapping("/ordenante/{id}")
+	public ArrayList<Transferencia> obtenerTransferenciaporOrdenante(@PathVariable("id") Integer id) {
+		return this.transferenciaService.buscarTransferenciaPorOrdenanteId(id);
+	}
+
+	@GetMapping("/beneficiario/{id}")
+	public ArrayList<Transferencia> obtenerTransferenciaporBeneficiario(@PathVariable("id") Integer id) {
+		return this.transferenciaService.buscarTransferenciaPorBeneficiarioId(id);
+	}
+
+	@PostMapping("/realizar")
+	public Transferencia realizarTransferencia(@RequestBody Transferencia transferencia) {
+		return this.transferenciaService.realizarTransferencia(transferencia);
+	}
 
 }
